@@ -2,6 +2,7 @@
 
 #include "nest.h"
 
+#include <string>
 #include <vector>
 #include <sstream>
 #include <Windows.h>
@@ -73,16 +74,22 @@ public:
 		this->mark_playground();
 		this->mark_ants();
 		this->mark_nest();
+		
+		std::string buff;
 
 		for (size_t x = 0; x < this->play_ground_.size(); x++) {
 			for (size_t y = 0; y < this->play_ground_.size(); y++) {
-				out << this->play_ground_[x][y];
+				buff += play_ground_[x][y];
 			}
-			out << '\n';
+			buff += '\n';
 		}
-		out << '\n';
+
+		COORD coord;
+		coord.X = 0;
+		coord.Y = 0;
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+		out << buff;
 		Sleep(500);
-		system("cls");
 	}
 
 	void display_size_debug_info(std::ostream& out) {
