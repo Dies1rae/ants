@@ -14,6 +14,7 @@ public:
 	const char ant_sym = '$';
 	const char ground_sym = '.';
 	const char ant_nest_sym = '@';
+	const char ant_enzyme_sym = '*';
 
 	polygone() = default;
 
@@ -70,8 +71,23 @@ public:
 		}
 	}
 
+	void mark_track() {
+		for (const ant& a : this->ant_nest_->ants()) {
+			std::stack<enzym> tmp = a.enzym_();
+			while (!tmp.empty()) {
+				if (tmp.top().position().x() == this->ant_nest_->position().x() && tmp.top().position().y() == this->ant_nest_->position().y()) {
+					tmp.pop();
+					continue;
+				}
+				play_ground_[tmp.top().position().x()][tmp.top().position().y()] = ant_enzyme_sym;
+				tmp.pop();
+			}
+		}
+	}
+
 	void display_playground(std::ostream& out) {
 		this->mark_playground();
+		this->mark_track();
 		this->mark_ants();
 		this->mark_nest();
 		
@@ -89,6 +105,10 @@ public:
 		coord.Y = 0;
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 		out << buff;
+
+		//display_size_debug_info(out);
+		//system("PAUSE");
+
 		Sleep(500);
 	}
 
@@ -98,8 +118,15 @@ public:
 		out << "Ant nest size: " << this->ant_nest_->size() << " ants" << '\n';
 		out << "Ants coord:" << '\n';
 		for (size_t x = 0; x < this->ant_nest_->ants().size(); x++) {
-			out << "Ant num " << x << " coord: ";
+			out << "Ant num " << x << " info: ";
 			out << this->ant_nest_->ants()[x].position().x() << ":" << this->ant_nest_->ants()[x].position().y() << '\n';
+
+			out << "Ant num " << x << " enzyn info: ";
+			std::stack<enzym> tmp = this->ant_nest_->ants()[x].enzym_();
+			while (!tmp.empty()) {
+				out << tmp.top().position().x() << ":" << tmp.top().position().y() << ":" << tmp.top().weight() <<'\n';
+				tmp.pop();
+			}
 		}
 		out << '\n';
 	}

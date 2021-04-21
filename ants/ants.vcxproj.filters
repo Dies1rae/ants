@@ -27,6 +27,9 @@
     <ClInclude Include="geo.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="enzym.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ant.cpp">
@@ -42,6 +45,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="geo.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="enzym.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

@@ -14,6 +14,7 @@ public:
 		this->nest_.resize(size);
 		for (ant& a : this->nest_) {
 			*a.mutable_position() = position;
+			a.ant_base();
 		}
 	}
 
@@ -69,8 +70,9 @@ private:
 		std::uniform_int_distribution<int> normal_dist_x(low_x, hight_x);
 		std::uniform_int_distribution<int> normal_dist_y(low_y, hight_y);
 
-		*ant.mutable_position()->mutable_x() = normal_dist_x(edge);
-		*ant.mutable_position()->mutable_y() = normal_dist_y(edge);
+		ant.ant_move(normal_dist_x(edge), normal_dist_y(edge));
+		//*ant.mutable_position()->mutable_x() = normal_dist_x(edge);
+		//*ant.mutable_position()->mutable_y() = normal_dist_y(edge);
 	}
 
 	geo position_;
