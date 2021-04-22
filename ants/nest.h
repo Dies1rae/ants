@@ -56,9 +56,9 @@ public:
 		return &this->nest_;
 	 }
 
-	 void move() {
+	 void move(std::vector<std::vector<char>> play_ground) {
 		 for (size_t a = 0; a < this->nest_.size(); a++) {
-			 this->nest_[a].ant_nest_playground_init(this->play_ground_);
+			 this->nest_[a].ant_nest_playground_init(play_ground);
 			 this->nest_[a].rnd_ant_move();
 		 }
 	 }

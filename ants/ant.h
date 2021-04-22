@@ -82,20 +82,6 @@ public:
 		this->track_.push_back(tmp);
 	}
 
-	//NEED to ADD BRAIN and correct moves to enzym_food_buddies
-	bool ant_eye(const int x_, const int y_) {
-		for (size_t x = 0; x < this->play_ground_.size(); x++) {
-			for (size_t y = 0; y < this->play_ground_.size(); y++) {
-				if (x == x_ && y == y_) {
-					if (this->play_ground_[x][y] == '0') {
-						return false;
-					}
-				}
-			}
-		}
-		return true;
-	}
-
 	void rnd_ant_move() {
 		std::random_device r;
 		std::mt19937 edge(r());
@@ -133,16 +119,32 @@ public:
 		int ant_next_step_x = normal_dist_x(edge);
 		int ant_next_step_y = normal_dist_y(edge);
 
-		while (this->ant_eye(ant_next_step_x, ant_next_step_y) != true) {
+		bool brakes = this->ant_eye(ant_next_step_x, ant_next_step_y);
+		while (brakes) {
 			this->rnd_ant_move_direction();
 			ant_next_step_x = normal_dist_x(edge);
 			ant_next_step_y = normal_dist_y(edge);
+			brakes = this->ant_eye(ant_next_step_x, ant_next_step_y);
 		}
 
 		this->ant_move(ant_next_step_x, ant_next_step_y);
 	}
 
 private:
+	//NEED to ADD BRAIN and correct moves to enzym_food_buddies
+	bool ant_eye(const int x_, const int y_) {
+		for (size_t x = 0; x < this->play_ground_.size(); x++) {
+			for (size_t y = 0; y < this->play_ground_.size(); y++) {
+				if (x == x_ && y == y_) {
+					if (this->play_ground_[x][y] == '0') {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	void rnd_ant_move_direction() {
 		std::random_device r;
 		std::mt19937 edge(r());
