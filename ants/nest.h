@@ -25,6 +25,7 @@ public:
 	const geo position() const {
 		return this->position_;
 	}
+
 	const size_t size() const {
 		return this->nest_.size();
 	}
@@ -55,10 +56,6 @@ public:
 		return &this->nest_;
 	 }
 
-	 void ant_nest_playground_init(const std::vector<std::vector<char>>& play_ground) {
-		 this->play_ground_ = play_ground;
-	 }
-
 	 void move() {
 		 for (size_t a = 0; a < this->nest_.size(); a++) {
 			 this->nest_[a].ant_nest_playground_init(this->play_ground_);
@@ -69,6 +66,6 @@ public:
 private:
 	geo position_;
 	std::vector<ant> nest_;
-	std::vector<std::vector<char>> play_ground_;
+	std::vector<std::vector<char>> play_ground_; //need to refactor(too much copies)
 };
 

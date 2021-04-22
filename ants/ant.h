@@ -21,12 +21,15 @@ public:
 	const bool carry_on() const {
 		return this->carry_on_;
 	}
+
 	const size_t speed() const {
 		return this->speed_;
 	}
+
 	const geo position() const {
 		return this->position_;
 	}
+
 	const std::vector<enzym> enzym_() const {
 		return this->track_;
 	}
@@ -34,12 +37,15 @@ public:
 	bool* mutable_carry_on() {
 		return &this->carry_on_;
 	}
+
 	size_t* mutable_speed() {
 		return &this->speed_;
 	}
+
 	geo* mutable_position() {
 		return &this->position_;
 	}
+
 	std::vector<enzym>* mutable_enzym_() {
 		return &this->track_;
 	}
@@ -47,19 +53,24 @@ public:
 	void set_carry_on(bool i) {
 		this->carry_on_ = i;
 	}
+
 	void set_speed(size_t v) {
 		this->speed_ = v;
 	}
+
 	void set_position(const geo& coords) {
 		this->position_ = coords;
 	}
+
 	void set_position(const int x, const int y) {
 		*this->position_.mutable_x() = x;
 		*this->position_.mutable_y() = y;
 	}
+
 	void ant_nest_playground_init(const std::vector<std::vector<char>>& play_ground) {
 		this->play_ground_ = play_ground;
 	}
+
 	void ant_base_init() {
 		this->track_.push_back({0, this->position_});
 		this->rnd_ant_move_direction();
@@ -71,6 +82,7 @@ public:
 		this->track_.push_back(tmp);
 	}
 
+	//NEED to ADD BRAIN and correct moves to enzym_food_buddies
 	bool ant_eye(const int x_, const int y_) {
 		for (size_t x = 0; x < this->play_ground_.size(); x++) {
 			for (size_t y = 0; y < this->play_ground_.size(); y++) {
@@ -115,7 +127,6 @@ public:
 			hight_y = this->position().y();
 		}
 
-
 		std::uniform_int_distribution<int> normal_dist_x(low_x, hight_x);
 		std::uniform_int_distribution<int> normal_dist_y(low_y, hight_y);
 
@@ -131,7 +142,6 @@ public:
 		this->ant_move(ant_next_step_x, ant_next_step_y);
 	}
 
-
 private:
 	void rnd_ant_move_direction() {
 		std::random_device r;
@@ -145,6 +155,6 @@ private:
 	direction direction_;
 	geo position_;
 	std::vector<enzym> track_;
-	std::vector<std::vector<char>> play_ground_;
+	std::vector<std::vector<char>> play_ground_; //need to refactor(too much copies)
 };
 

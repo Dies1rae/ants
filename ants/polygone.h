@@ -9,7 +9,7 @@
 
 class polygone {
 public:
-
+	//REPLACE TO GEO LIKE AN OBJECT
 	const char border_sym = '0';
 	const char ant_sym = '$';
 	const char ground_sym = '.';
@@ -136,7 +136,6 @@ public:
 	void main_loop(std::ostream& out) {
 		while (true) 	{
 			this->display_playground(out);
-			//this is bad, need to refactor
 			this->ant_nest_->ant_nest_playground_init(this->play_ground_);
 			this->ant_nest_->move();
 		}
@@ -144,6 +143,6 @@ public:
 
 private:
 	nest* ant_nest_;
-	std::vector<std::vector<char>> play_ground_;
+	std::vector<std::vector<char>> play_ground_; //need to refactor(too much copies)
 };
 
