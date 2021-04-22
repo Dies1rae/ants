@@ -131,14 +131,11 @@ public:
 		out << '\n';
 	}
 
-	void ants_turn() {
-		this->ant_nest_->move();
-	}
 
 	void main_loop(std::ostream& out) {
 		while (true) 	{
 			this->display_playground(out);
-			this->ant_nest_->move();
+			this->ant_nest_->move(this->play_ground_);
 		}
 	}
 
