@@ -10,9 +10,10 @@ class ant {
 public:
 	ant() = default;
 
-	explicit ant(const geo& coord_of_nest): position_(coord_of_nest) {
+	explicit ant(const geo& coord_of_nest, const std::vector<std::vector<char>> play_ground): position_(coord_of_nest) {
 		this->track_.push_back({ 0, coord_of_nest });
 		this->rnd_ant_move_direction();
+		this->play_ground_ = play_ground;
 	}
 	
 	~ant() = default;
@@ -56,7 +57,9 @@ public:
 		*this->position_.mutable_x() = x;
 		*this->position_.mutable_y() = y;
 	}
-
+	void ant_nest_playground_init(const std::vector<std::vector<char>>& play_ground) {
+		this->play_ground_ = play_ground;
+	}
 	void ant_base_init() {
 		this->track_.push_back({0, this->position_});
 		this->rnd_ant_move_direction();
@@ -68,10 +71,23 @@ public:
 		this->track_.push_back(tmp);
 	}
 
+	bool ant_eye(const int x_, const int y_) {
+		for (size_t x = 0; x < this->play_ground_.size(); x++) {
+			for (size_t y = 0; y < this->play_ground_.size(); y++) {
+				if (x == x_ && y == y_) {
+					if (this->play_ground_[x][y] == '0') {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
 	void rnd_ant_move() {
 		std::random_device r;
 		std::mt19937 edge(r());
-
+		
 		int low_x = 0;
 		int hight_x = 0;
 		int low_y = 0;
@@ -103,8 +119,18 @@ public:
 		std::uniform_int_distribution<int> normal_dist_x(low_x, hight_x);
 		std::uniform_int_distribution<int> normal_dist_y(low_y, hight_y);
 
-		this->ant_move(normal_dist_x(edge), normal_dist_y(edge));
+		int ant_next_step_x = normal_dist_x(edge);
+		int ant_next_step_y = normal_dist_y(edge);
+
+		while (this->ant_eye(ant_next_step_x, ant_next_step_y) != true) {
+			this->rnd_ant_move_direction();
+			ant_next_step_x = normal_dist_x(edge);
+			ant_next_step_y = normal_dist_y(edge);
+		}
+
+		this->ant_move(ant_next_step_x, ant_next_step_y);
 	}
+
 
 private:
 	void rnd_ant_move_direction() {
@@ -119,5 +145,6 @@ private:
 	direction direction_;
 	geo position_;
 	std::vector<enzym> track_;
+	std::vector<std::vector<char>> play_ground_;
 };
 

@@ -22,12 +22,13 @@ public:
 		size_t actual_size = size_ + 2;
 		geo nest_pos ((int)(actual_size / 2), (int)(actual_size / 2));
 
-		ant_nest_ = new nest(nest_pos, 1);
-
 		this->play_ground_.resize(actual_size);
 		for (std::vector<char>& g : this->play_ground_) {
 			g.resize(actual_size);
 		}
+
+		this->ant_nest_ = new nest(nest_pos, 1, this->play_ground_);
+		
 	}
 
 	polygone(const size_t size_, const size_t nest_size) {
@@ -41,12 +42,12 @@ public:
 			*nest_pos.mutable_y() = (int)((size_ + 1) / 2);
 		}
 
-		ant_nest_ = new nest(nest_pos, nest_size);
-
 		this->play_ground_.resize(actual_size);
 		for (std::vector<char>& g : this->play_ground_) {
 			g.resize(actual_size);
 		}
+
+		this->ant_nest_ = new nest(nest_pos, nest_size, this->play_ground_);
 	}
 	
 	~polygone() {
@@ -135,7 +136,9 @@ public:
 	void main_loop(std::ostream& out) {
 		while (true) 	{
 			this->display_playground(out);
-			this->ant_nest_->move(this->play_ground_);
+			//this is bad, need to refactor
+			this->ant_nest_->ant_nest_playground_init(this->play_ground_);
+			this->ant_nest_->move();
 		}
 	}
 

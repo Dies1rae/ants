@@ -9,14 +9,18 @@ class nest {
 public:
 	nest() = default;
 
-	nest(const geo& position, const size_t size): position_(position) {
+	nest(const geo& position, const size_t size, const std::vector<std::vector<char>>& play_ground): position_(position), play_ground_(play_ground){
 		for(size_t ptr = 0; ptr < size; ptr++) {
-			ant tmp_ant(position);
+			ant tmp_ant(position, play_ground);
 			this->nest_.push_back(tmp_ant);
 		}
 	}
 
-	~nest() = default;
+	~nest(){
+		for (size_t ptr = 0; ptr < this->nest_.size(); ptr++) {
+			this->nest_[ptr].~ant();
+		}
+	}
 
 	const geo position() const {
 		return this->position_;
@@ -51,8 +55,13 @@ public:
 		return &this->nest_;
 	 }
 
-	 void move(const std::vector<std::vector<char>>& play_ground) {
+	 void ant_nest_playground_init(const std::vector<std::vector<char>>& play_ground) {
+		 this->play_ground_ = play_ground;
+	 }
+
+	 void move() {
 		 for (size_t a = 0; a < this->nest_.size(); a++) {
+			 this->nest_[a].ant_nest_playground_init(this->play_ground_);
 			 this->nest_[a].rnd_ant_move();
 		 }
 	 }
@@ -60,5 +69,6 @@ public:
 private:
 	geo position_;
 	std::vector<ant> nest_;
+	std::vector<std::vector<char>> play_ground_;
 };
 

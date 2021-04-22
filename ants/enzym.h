@@ -16,6 +16,9 @@ public:
 	const size_t weight() const {
 		return this->weight_;
 	}
+	const bool food() const {
+		return this->food_;
+	}
 	const geo position() const {
 		return this->position_;
 	}
@@ -23,12 +26,16 @@ public:
 	geo* mutable_position() {
 		return &this->position_;
 	}
+	bool* mutable_food() {
+		return &this->food_;
+	}
 
 	void set_position(const geo& coords) {
 		this->position_ = coords;
 	}
 
 private:
+	bool food_ = 0;
 	size_t weight_ = 0;
 	geo position_;
 };
