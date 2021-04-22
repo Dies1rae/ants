@@ -4,19 +4,19 @@
 
 #include <vector>
 #include <stdexcept>
-#include <random>
 
 class nest {
 public:
 	nest() = default;
 
 	nest(const geo& position, const size_t size): position_(position) {
-		this->nest_.resize(size);
-		for (ant& a : this->nest_) {
-			*a.mutable_position() = position;
-			a.ant_base();
+		for(size_t ptr = 0; ptr < size; ptr++) {
+			ant tmp_ant(position);
+			this->nest_.push_back(tmp_ant);
 		}
 	}
+
+	~nest() = default;
 
 	const geo position() const {
 		return this->position_;
@@ -53,28 +53,11 @@ public:
 
 	 void move() {
 		 for (size_t a = 0; a < this->nest_.size(); a++) {
-			rnd_ant_move(this->nest_[a]);
+			 this->nest_[a].rnd_ant_move();
 		 }
 	 }
 
 private:
-	void rnd_ant_move(ant& ant) {
-		std::random_device r;
-		std::mt19937 edge(r());
-
-		int low_x = ant.position().x() - 1;
-		int hight_x = ant.position().x() + 1;
-		int low_y = ant.position().y() - 1;
-		int hight_y = ant.position().y() + 1;
-
-		std::uniform_int_distribution<int> normal_dist_x(low_x, hight_x);
-		std::uniform_int_distribution<int> normal_dist_y(low_y, hight_y);
-
-		ant.ant_move(normal_dist_x(edge), normal_dist_y(edge));
-		//*ant.mutable_position()->mutable_x() = normal_dist_x(edge);
-		//*ant.mutable_position()->mutable_y() = normal_dist_y(edge);
-	}
-
 	geo position_;
 	std::vector<ant> nest_;
 };

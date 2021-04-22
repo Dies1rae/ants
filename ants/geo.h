@@ -2,6 +2,10 @@
 
 #include <algorithm>
 
+enum class direction {
+	NO, SO, EA, WE
+};
+
 class geo {
 public:
 	geo() = default;

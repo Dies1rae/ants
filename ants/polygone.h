@@ -73,14 +73,11 @@ public:
 
 	void mark_track() {
 		for (const ant& a : this->ant_nest_->ants()) {
-			std::stack<enzym> tmp = a.enzym_();
-			while (!tmp.empty()) {
-				if (tmp.top().position().x() == this->ant_nest_->position().x() && tmp.top().position().y() == this->ant_nest_->position().y()) {
-					tmp.pop();
+			for (const enzym& e : a.enzym_()) {
+				if (e.position().x() == this->ant_nest_->position().x() && e.position().y() == this->ant_nest_->position().y()) {
 					continue;
 				}
-				play_ground_[tmp.top().position().x()][tmp.top().position().y()] = ant_enzyme_sym;
-				tmp.pop();
+				play_ground_[e.position().x()][e.position().y()] = ant_enzyme_sym;
 			}
 		}
 	}
@@ -122,11 +119,10 @@ public:
 			out << this->ant_nest_->ants()[x].position().x() << ":" << this->ant_nest_->ants()[x].position().y() << '\n';
 
 			out << "Ant num " << x << " enzyn info: ";
-			std::stack<enzym> tmp = this->ant_nest_->ants()[x].enzym_();
-			while (!tmp.empty()) {
-				out << tmp.top().position().x() << ":" << tmp.top().position().y() << ":" << tmp.top().weight() <<'\n';
-				tmp.pop();
+			for (const enzym& e : this->ant_nest_->ants()[x].enzym_()) {
+				out << e.position().x() << ":" << e.position().y() << ":" << e.weight() << '\n';
 			}
+			
 		}
 		out << '\n';
 	}
