@@ -49,6 +49,10 @@ public:
 		}
 	}
 	
+	~polygone() {
+		this->ant_nest_->~nest();
+	}
+
 	void mark_playground() {
 		for (size_t x = 0; x < this->play_ground_.size(); x++) {
 			for (size_t y = 0; y < this->play_ground_.size(); y++) {
