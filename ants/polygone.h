@@ -15,6 +15,7 @@ public:
 	const char ground_sym = '.';
 	const char ant_nest_sym = '@';
 	const char ant_enzyme_sym = '*';
+	const char ant_food_sym = 'F';
 
 	polygone() = default;
 
@@ -71,14 +72,14 @@ public:
 	}
 
 	void mark_ants() {
-		for (const ant& a : this->ant_nest_->ants()) {
-			play_ground_[a.position().x()][a.position().y()] = ant_sym;
+		for (const ant* a : this->ant_nest_->ants()) {
+			play_ground_[a->position().x()][a->position().y()] = ant_sym;
 		}
 	}
 
 	void mark_track() {
-		for (const ant& a : this->ant_nest_->ants()) {
-			for (const enzym& e : a.enzym_()) {
+		for (const ant* a : this->ant_nest_->ants()) {
+			for (const enzym& e : a->enzym_()) {
 				if (e.position().x() == this->ant_nest_->position().x() && e.position().y() == this->ant_nest_->position().y()) {
 					continue;
 				}
@@ -108,7 +109,7 @@ public:
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 		out << buff;
 
-		//display_size_debug_info(out);
+		display_size_debug_info(out);
 		//system("PAUSE");
 
 		Sleep(500);
@@ -121,12 +122,12 @@ public:
 		out << "Ants coord:" << '\n';
 		for (size_t x = 0; x < this->ant_nest_->ants().size(); x++) {
 			out << "Ant num " << x << " info: ";
-			out << this->ant_nest_->ants()[x].position().x() << ":" << this->ant_nest_->ants()[x].position().y() << '\n';
+			out << this->ant_nest_->ants()[x]->position().x() << ":" << this->ant_nest_->ants()[x]->position().y() << '\n';
 
 			out << "Ant num " << x << " enzyn info: ";
-			for (const enzym& e : this->ant_nest_->ants()[x].enzym_()) {
-				out << e.position().x() << ":" << e.position().y() << ":" << e.weight() << '\n';
-			}
+			
+			out << this->ant_nest_->ants()[this->ant_nest_->ants().size() - 1]->enzym_()[this->ant_nest_->ants()[this->ant_nest_->ants().size() - 1]->enzym_().size() - 1].position().x() << ":" << this->ant_nest_->ants()[this->ant_nest_->ants().size() - 1]->enzym_()[this->ant_nest_->ants()[this->ant_nest_->ants().size() - 1]->enzym_().size() - 1].position().y() << ":" << this->ant_nest_->ants()[this->ant_nest_->ants().size() - 1]->enzym_()[this->ant_nest_->ants()[this->ant_nest_->ants().size() - 1]->enzym_().size() - 1].weight() <<'\n';
+			
 			
 		}
 		out << '\n';

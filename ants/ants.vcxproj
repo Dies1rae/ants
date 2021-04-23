@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="ant.h" />
     <ClInclude Include="enzym.h" />
+    <ClInclude Include="food.h" />
     <ClInclude Include="geo.h" />
     <ClInclude Include="nest.h" />
     <ClInclude Include="polygone.h" />
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="ant.cpp" />
     <ClCompile Include="enzym.cpp" />
+    <ClCompile Include="food.cpp" />
     <ClCompile Include="geo.cpp" />
     <ClCompile Include="nest.cpp" />
     <ClCompile Include="polygone.cpp" />

@@ -35,6 +35,7 @@ public:
 	}
 
 private:
+
 	bool food_ = 0;
 	size_t weight_ = 0;
 	geo position_;
