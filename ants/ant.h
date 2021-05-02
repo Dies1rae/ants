@@ -14,6 +14,7 @@ public:
 
 	explicit ant(const geo& coord_of_nest, const std::vector<std::vector<char>> play_ground): position_(coord_of_nest) {
 		enzym tmp_first(0, coord_of_nest);
+		this->coord_nest_ = coord_of_nest;
 		this->track_.push_back(tmp_first);
 		this->play_ground_ = play_ground;
 		this->food = nullptr;
@@ -75,8 +76,8 @@ public:
 	}
 
 	void set_position(const int x, const int y) {
-		*this->position_.mutable_x() = x;
-		*this->position_.mutable_y() = y;
+		this->position_.set_x(x);
+		this->position_.set_y(y);
 	}
 
 	void ant_nest_playground_init(const std::vector<std::vector<char>>& play_ground) {
@@ -90,37 +91,37 @@ public:
 
 	void ant_move(const int coor_x, const int coor_y) {
 		this->set_position(coor_x, coor_y);
-		enzym tmp = this->track_.back().new_enzym(this->position());
 		this->time_++;
 		if(!this->walk_home_){
+			enzym tmp = this->track_.back().new_enzym(this->position());
 			this->track_.push_back(tmp);
 		}
 	}
 
 	void check_enzym() {
-		if (this->time_ > 5 && this->play_ground_[this->position_.x()][this->position_.y()] != '@') {
+		if (this->time_ == 100) {
 			this->walk_home_ = 1;
-		} else if (this->time_ > 5 && this->play_ground_[this->position_.x()][this->position_.y()] == '@') {
-			std::cout << "last ant pos: " << this->position_.x() << ":" << this->position_.y() << std::endl;
-			std::cout << "enzym ant pos: " << this->track_[0].position().x() << ":" << this->track_[0].position().x() << ":" << this->track_[0].weight() << std::endl;
-			system("PAUSE");
+		}
+		else if (this->time_ >= 100 && this->position_.x() == this->coord_nest_.x() && this->position_.y() == this->coord_nest_.y()) {
 			this->walk_home_ = 0;
-			this->time_ = 0;
 			this->track_.clear();
-			geo tmp_coords(this->position().x(), this->position().y());
-			enzym tmp_first(0, tmp_coords);
+			this->time_ = 0;
+			enzym tmp_first(0, this->coord_nest_);
 			this->track_.push_back(tmp_first);
 		}
 	}
 
 	void rnd_ant_move() {
-		int ant_next_step_x;
-		int ant_next_step_y;
+		int ant_next_step_x = 0;
+		int ant_next_step_y = 0;
 		this->check_enzym();
 		if (this->walk_home_) {
-			ant_next_step_x = this->track_.back().position().x();
-			ant_next_step_y = this->track_.back().position().y();
-			this->track_.pop_back();
+			if (!this->track_.empty()) {
+				enzym position = this->track_.back();
+				ant_next_step_x = position.position().x();
+				ant_next_step_y = position.position().y();
+				this->track_.pop_back();
+			}
 		} else if (!this->walk_home_) {
 			std::random_device r;
 			std::mt19937 edge(r());
@@ -198,6 +199,7 @@ private:
 	ant_food* food;
 	direction direction_;
 	geo position_;
+	geo coord_nest_;
 	std::vector<enzym> track_;
 	std::vector<std::vector<char>> play_ground_; //need to refactor(too much copies)
 };

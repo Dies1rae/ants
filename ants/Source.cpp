@@ -21,8 +21,8 @@ void set_console_size(size_t size) {
 
 
 int main() {
-	size_t poly_size = 0;
-	size_t nest_size = 0;
+	int poly_size = 0;
+	int nest_size = 0;
 	cout << "Set polygon size: " << endl;
 	cin >> poly_size;
 	cout << "Set ant nest size: " << endl;

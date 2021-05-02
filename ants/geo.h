@@ -12,7 +12,9 @@ public:
 
 	explicit geo(const int x, const int y): x_(x), y_(y) {}
 
-	geo(const geo& position): x_(position.x_), y_(position.y_){}
+	geo(const geo& position) {
+		*this = position;
+	}
 	geo(geo&& position) noexcept {
 		std::swap(this->x_, position.x_);
 		std::swap(this->y_, position.y_);

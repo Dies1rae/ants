@@ -59,7 +59,7 @@ public:
 		return this->nest_;
 	 }
 
-	 void move(std::vector<std::vector<char>> play_ground) {
+	 void move(std::vector<std::vector<char>> play_ground) { //refactor
 		 for (size_t a = 0; a < this->nest_.size(); a++) {
 			 this->nest_[a]->ant_nest_playground_init(play_ground);
 			 this->nest_[a]->rnd_ant_move();

@@ -109,7 +109,7 @@ public:
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 		out << buff;
 
-		display_size_debug_info(out);
+		//display_size_debug_info(out);
 		//system("PAUSE");
 
 		Sleep(500);
